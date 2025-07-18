@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 // Define el tipo de dato para un producto
 export interface Product {
@@ -22,31 +23,21 @@ const initialState: ProductState = {
   status: 'idle',
 };
 
-//  मॉक: Tus datos de productos como si vinieran de una API
-const mockProducts: Product[] = [
-    { id: 1, name: "iPhone 15 Pro", description: "El último iPhone con chip A17 Pro.", price: 4000000, quantity: 1, image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=300&fit=crop" },
-    { id: 2, name: "MacBook Air M2", description: "Portátil ultraligero con chip M2.", price: 3800000, quantity: 1, image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop" },
-    { id: 3, name: "AirPods Pro", description: "Auriculares con cancelación activa de ruido.", price: 900000, quantity: 3, image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400&h=300&fit=crop" },
-    { id: 4, name: "iPad Air", description: "Tablet versátil con chip M1.", price: 2200000, quantity:7, image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=300&fit=crop" }
-];
 
-// Acción asíncrona para simular la obtención de productos
-export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  console.log("Fetching products from mock API...");
-  // 🚀 SIMULACIÓN DE API
-  // Creamos una promesa que se resuelve después de 1 segundo con los datos mock.
-  const promise = new Promise<Product[]>((resolve) => {
-    setTimeout(() => {
-      resolve(mockProducts);
-    }, 1000); // Simula 1 segundo de espera de red
-  });
+export const fetchProducts = createAsyncThunk<Product[]>( // Specify the fulfilled value type
+  'products/fetchProducts',
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log("Fetching products from backend API...");
+      const response = await axios.get<Product[]>('http://localhost:3000/products'); // Make the GET request
+      return response.data;
+    } catch (error: any) {
+      console.error("Error fetching products:", error);
+      return rejectWithValue(error.response?.data || error.message || 'Failed to fetch products');
+    }
+  }
+);
 
-  // Cuando tengas la API real, solo reemplazarás la promesa de arriba por algo como:
-  // const response = await axios.get('https://tu-api.com/products');
-  // return response.data;
-
-  return promise;
-});
 
 // Creación del slice
 const productSlice = createSlice({
