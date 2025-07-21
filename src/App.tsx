@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from './app/store';
-import { fetchProducts } from './features/productSlice';
 import Navbar from './components/Navbar';
 import ProductCard from './components/ProductCard';
 import CheckoutModal from './components/CheckoutModal'; // 👈 PASO 1: Importa el modal
+import { fetchProducts } from './services/products';
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -26,7 +26,7 @@ function App() {
           </h2>
         </div>
 
-        {status === 'loading' && <p className="text-center text-lg">Cargando productos...</p>}
+        {status === 'loading' && <p className="text-center text-lg">Loading Products...</p>}
         
         {status === 'succeeded' && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

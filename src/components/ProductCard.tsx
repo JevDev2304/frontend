@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../app/store';
 import { openCheckout } from '../features/checkoutSlice';
 import { useState } from 'react';
-import { Product } from '../features/productSlice';
+import { Product } from '../interfaces/products';
 
 interface ProductCardProps {
   product: Product;
