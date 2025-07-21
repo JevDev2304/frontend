@@ -8,8 +8,8 @@ export const fetchWompiPermalinks = async (): Promise<{
   personalDataAuthToken: string;
 } | null> => {
 
-  // 1. Obtiene la URL de tu propio backend desde las variables de entorno
-  const BACKEND_URL = import.meta.env.VITE_API_URL;
+
+  const BACKEND_URL = import.meta.env.VITE_API_URL || 'https://backend-2cko.onrender.com';
   if (!BACKEND_URL) {
     console.error("Error: VITE_API_URL not defined. Check your .env file.");
     return null;
