@@ -2,7 +2,7 @@ import { CreateTransactionRequest,CreateTransactionResponse } from "../interface
 
 
 const API_BASE =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+  import.meta.env.VITE_API_BASE_URL || 'https://backend-2cko.onrender.com';
 export async function createTransaction(
   payload: CreateTransactionRequest,
   options?: { signal?: AbortSignal }
